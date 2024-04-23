@@ -1,6 +1,6 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
-import { sendRequest } from '../utils';
+import { sendRequest } from '../../utils/apiUtils';
 
 // Waiting page with refresh for API call
 const handler = frames(async (ctx) => {
