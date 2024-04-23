@@ -1,10 +1,8 @@
-// File: /app/utils/apiUtils.js
-
 async function sendRequest(chain, tokenAddress) {
   const url = 'https://api.quickintel.io/v1/getquickiauditfull';
   const headers = {
     'Content-Type': 'application/json',
-    'X-QKNTL-KEY': process.env.QUICKINTEL_API_KEY, // Ensure you're loading the API key securely.
+    'X-QKNTL-KEY': process.env.QUICKINTEL_API_KEY,
   };
   const body = JSON.stringify({ chain, tokenAddress });
 
@@ -22,15 +20,15 @@ async function sendRequest(chain, tokenAddress) {
 }
 
 function parseResponse(data) {
-  // Implement validation and parsing logic here
+  // TODO: Implement validation and parsing logic
   return data;
 }
 
 function calculateScores(data) {
-  // Implement scoring logic here, based on your criteria
+  // TODO: Implement weighted scoring logic
   const scores = {};
   // Example scoring
-  scores['tokenName'] = data.tokenDetails.tokenName.length; // Just an example
+  scores['Warning'] = data.tokenDynamicDetails.is_Honeypot; // EXAMPLE
   return scores;
 }
 

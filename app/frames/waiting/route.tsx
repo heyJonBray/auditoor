@@ -1,5 +1,6 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
+import { sendRequest } from '../utils';
 
 // Waiting page with refresh for API call
 const handler = frames(async (ctx) => {
@@ -11,7 +12,7 @@ const handler = frames(async (ctx) => {
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
 
   // Fire off request, hope for the best.
-  // sendRequest(chain, contract).catch(console.error);
+  sendRequest(chain, contract).catch(console.error);
 
   return {
     image: isValidContract ? (
