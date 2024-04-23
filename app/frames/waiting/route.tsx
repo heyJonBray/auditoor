@@ -1,6 +1,7 @@
 // File: /app/frames/contract/route.tsx
 import { Button } from 'frames.js/next';
 import { frames } from '../frames'; // Verify import path
+import { sendRequest } from '../../utils/apiUtils';
 
 const handler = frames(async (ctx) => {
   const chain = ctx.searchParams.chain; // Retrieves the chain from query parameters
@@ -9,6 +10,9 @@ const handler = frames(async (ctx) => {
     ? /^0x[a-fA-F0-9]{40}$/.test(contract)
     : false; // Contract regex check
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
+
+  // Fire off request, hope for the best.
+  // sendRequest(chain, contract).catch(console.error);
 
   return {
     image: isValidContract ? (
