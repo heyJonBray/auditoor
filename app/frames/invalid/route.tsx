@@ -6,6 +6,11 @@ const handler = frames(async (ctx) => {
   const contract = ctx.message?.inputText; // Retrieves the contract address from the message
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
 
+  // Contract regex check
+  const isValidContract = contract
+    ? /^0x[a-fA-F0-9]{40}$/.test(contract)
+    : false;
+
   return {
     image: (
       <div
@@ -31,7 +36,8 @@ const handler = frames(async (ctx) => {
             marginBottom: '20px',
           }}
         />
-        <h2>Enter the contract address on {chain}</h2>
+        <h2>{contract} is not a valid address</h2>
+        <h2>Enter a valid address on {chain}</h2>
         <p
           style={{
             position: 'absolute',
@@ -49,7 +55,11 @@ const handler = frames(async (ctx) => {
     buttons: [
       <Button
         action="post"
-        target={{ pathname: '/waiting', query: { contract, chain } }}
+        target={
+          isValidContract
+            ? { pathname: '/waiting', query: { contract, chain } }
+            : { pathname: '/invalid' }
+        }
       >
         Scan
       </Button>,

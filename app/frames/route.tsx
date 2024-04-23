@@ -11,25 +11,27 @@ const handler = frames(async () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          height: '100vh', // Full viewport height
+          height: '100vh',
           width: '100vw',
-          background: 'linear-gradient(to right, #432889, #17101F)',
+          background: '#432889',
           color: 'white',
           textAlign: 'center',
           padding: '20px',
         }}
       >
         <h1 style={{ fontSize: '60px', marginTop: '30px' }}>
-          Need a $FCKN contract audited?
+          Don't get $FCKN scammed!
+        </h1>
+        <h1 style={{ fontSize: '40px', marginTop: '10px' }}>
+          Audit tokens before you buy.
         </h1>
         <p
           style={{
-            fontSize: '30px',
-            fontStyle: 'italic',
-            fontWeight: 'bold',
             position: 'absolute',
-            bottom: '25px',
+            bottom: '10px',
             right: '25px',
+            fontWeight: 'bold',
+            fontSize: '25px',
           }}
         >
           Powered by QuickIntel API
