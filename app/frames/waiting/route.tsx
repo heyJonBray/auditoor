@@ -1,8 +1,11 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
-import { sendRequest } from '../../utils/apiUtils';
+//import { sendRequest } from '../../utils/apiUtils';
 
-// Waiting page with refresh for API call
+/**
+ * Waiting page with refresh for API calls
+ * TODO: Implement KV store
+ */
 const handler = frames(async (ctx) => {
   const chain = ctx.searchParams.chain;
   const contract = ctx.message?.inputText;
@@ -12,7 +15,8 @@ const handler = frames(async (ctx) => {
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
 
   // Fire off request, hope for the best.
-  sendRequest(chain, contract).catch(console.error);
+  // $DEGEN CA: 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed
+  // sendRequest(chain, contract).catch(console.error);
 
   return {
     image: isValidContract ? (
