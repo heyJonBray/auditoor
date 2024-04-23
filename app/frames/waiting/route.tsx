@@ -47,7 +47,7 @@ const handler = frames(async (ctx) => {
           <div
             style={{
               marginLeft: '20px',
-              fontSize: '30px',
+              fontSize: '35px',
               fontWeight: 'bold',
             }}
           >
@@ -55,7 +55,7 @@ const handler = frames(async (ctx) => {
           </div>
         </div>
         <h2>Audit submitted!</h2>
-        <h3>Please wait 30 seconds, then refresh the frame.</h3>
+        <h3>Please wait 5 seconds, then refresh the frame.</h3>
         <p
           style={{
             position: 'absolute',
@@ -84,13 +84,10 @@ const handler = frames(async (ctx) => {
         }}
       >
         <h3 style={{ margin: '0', padding: '0', lineHeight: '1.2' }}>
-          Are you sure about that?
-        </h3>
-        <h3 style={{ margin: '20px 0', padding: '0', lineHeight: '1.2' }}>
           {contract}
         </h3>
-        <h3 style={{ margin: '0', padding: '0', lineHeight: '1.2' }}>
-          doesn't look right...
+        <h3 style={{ margin: '20px 0', padding: '0', lineHeight: '1.2' }}>
+          🤔 Are you sure about that?
         </h3>
         <h3
           style={{ marginTop: '50px', marginBottom: '20px', lineHeight: '1.2' }}

@@ -42,7 +42,7 @@ const handler = frames(async (ctx) => {
           <div
             style={{
               marginLeft: '20px',
-              fontSize: '30px',
+              fontSize: '35px',
               fontWeight: 'bold',
             }}
           >
