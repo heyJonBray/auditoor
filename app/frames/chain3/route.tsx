@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-key */
 import { frames } from '../frames';
 import { Button } from 'frames.js/next';
 
-// Arbitrum, Avalanche, Base
+// Degen, Ethereum, Fantom
 const handler = frames(async () => {
   return {
     image: (

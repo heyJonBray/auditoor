@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import { frames } from './frames';
 import { Button } from 'frames.js/next';
 
@@ -39,14 +38,12 @@ const handler = frames(async () => {
       </div>
     ),
     buttons: [
-      // With query params
       <Button
         action="post"
         target={{ pathname: '/chain1', query: { foo: 'bar' } }}
       >
         Start
       </Button>,
-      // Without query params
       <Button action="link" target={'https://warpcast.com/jonbray.eth'}>
         FAQ
       </Button>,

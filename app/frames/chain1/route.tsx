@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import { frames } from '../frames';
 import { Button } from 'frames.js/next';
 
@@ -12,8 +11,8 @@ const handler = frames(async () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          height: '100vh', // Full viewport height
-          width: '100vw', // Full viewport width
+          height: '100vh',
+          width: '100vw',
           background: '#432889',
           color: 'white',
           textAlign: 'center',
@@ -52,7 +51,6 @@ const handler = frames(async () => {
       </div>
     ),
     buttons: [
-      // With query params
       <Button
         action="post"
         target={{ pathname: '/contract', query: { chain: 'Arbitrum' } }}
@@ -71,7 +69,6 @@ const handler = frames(async () => {
       >
         Base
       </Button>,
-      // Without query params
       <Button action="post" target="/chain2">
         ➡️
       </Button>,
