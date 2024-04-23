@@ -1,9 +1,9 @@
 import { Button } from 'frames.js/next';
-import { frames } from '../frames'; // Verify import path
+import { frames } from '../frames';
 
 const handler = frames(async (ctx) => {
-  const chain = ctx.searchParams.chain; // Retrieves the chain from query parameters
-  const contract = ctx.message?.inputText; // Retrieves the contract address from the message
+  const chain = ctx.searchParams.chain;
+  const contract = ctx.message?.inputText;
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
 
   return {

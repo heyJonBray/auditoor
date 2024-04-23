@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-key */
 import { frames } from '../frames';
 import { Button } from 'frames.js/next';
 
-// Arbitrum, Avalanche, Base
+// Blase, BSC, Canto
 const handler = frames(async () => {
   return {
     image: (
@@ -52,7 +51,6 @@ const handler = frames(async () => {
       </div>
     ),
     buttons: [
-      // With query params
       <Button
         action="post"
         target={{ pathname: '/contract', query: { chain: 'Blast' } }}
@@ -71,7 +69,6 @@ const handler = frames(async () => {
       >
         Canto
       </Button>,
-      // Without query params
       <Button action="post" target="/chain3">
         ➡️
       </Button>,
