@@ -71,11 +71,11 @@ const handler = frames(async (ctx) => {
       >
         Scan Again
       </Button>,
-      <Button action="link" target="https://warpcast.com/jonbray.eth">
+      <Button action="link" target="https://fckn.club/">
         🍗
       </Button>,
       <Button action="link" target="https://warpcast.com/jonbray.eth">
-        🍗
+        ❓
       </Button>,
     ],
   };
