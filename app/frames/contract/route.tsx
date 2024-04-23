@@ -31,7 +31,8 @@ const handler = frames(async (ctx) => {
             marginBottom: '20px',
           }}
         />
-        <h2>Enter the contract address on {chain}</h2>
+        <h2>Enter the contract address on</h2>
+        <h2> {chain}</h2>
         <p
           style={{
             position: 'absolute',
