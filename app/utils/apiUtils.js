@@ -15,7 +15,7 @@ async function sendRequest(chain, tokenAddress) {
     return await response.json();
   } catch (error) {
     console.error('API request failed:', error);
-    throw error; // Rethrowing the error to be handled by the caller.
+    throw error;
   }
 }
 
