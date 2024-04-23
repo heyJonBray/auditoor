@@ -1,6 +1,7 @@
 import { Button } from 'frames.js/next';
-import { frames } from '../frames'; // Verify import path
+import { frames } from '../frames';
 
+// Polygon, Polygon ZKEVM, Pulse
 const handler = frames(async () => {
   return {
     image: (

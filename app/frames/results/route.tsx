@@ -1,6 +1,7 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
 
+// Results page for formatted API results
 const handler = frames(async (ctx) => {
   const { contract, chain } = ctx.searchParams;
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
@@ -19,7 +20,7 @@ const handler = frames(async (ctx) => {
           color: 'white',
           textAlign: 'center',
           padding: '20px',
-          position: 'relative', // Allows absolute positioning inside
+          position: 'relative',
         }}
       >
         <div

@@ -1,14 +1,13 @@
-// File: /app/frames/contract/route.tsx
 import { Button } from 'frames.js/next';
-import { frames } from '../frames'; // Verify import path
-import { sendRequest } from '../../utils/apiUtils';
+import { frames } from '../frames';
 
+// Waiting page with refresh for API call
 const handler = frames(async (ctx) => {
-  const chain = ctx.searchParams.chain; // Retrieves the chain from query parameters
-  const contract = ctx.message?.inputText; // Retrieves the contract address from the message
+  const chain = ctx.searchParams.chain;
+  const contract = ctx.message?.inputText;
   const isValidContract = contract
     ? /^0x[a-fA-F0-9]{40}$/.test(contract)
-    : false; // Contract regex check
+    : false;
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
 
   // Fire off request, hope for the best.
@@ -28,7 +27,7 @@ const handler = frames(async (ctx) => {
           color: 'white',
           textAlign: 'center',
           padding: '20px',
-          position: 'relative', // Allows absolute positioning inside
+          position: 'relative',
         }}
       >
         <div
