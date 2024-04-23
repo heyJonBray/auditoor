@@ -1,10 +1,10 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
-//import { sendRequest } from '../../utils/apiUtils';
+import { NextRequest, NextResponse } from 'next/server';
+import { sendQuickIntelRequest, storeDataInKV } from '../../utils/apiUtils';
 
 /**
  * Waiting page with refresh for API calls
- * TODO: Implement KV store
  */
 const handler = frames(async (ctx) => {
   const chain = ctx.searchParams.chain;
@@ -14,9 +14,28 @@ const handler = frames(async (ctx) => {
     : false;
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
 
-  // Fire off request, hope for the best.
+  if (isValidContract && chain && contract) {
+    // Check if chain and contract are not undefined
+    try {
+      // Initiate API request
+      const quickIntelResponse = await sendQuickIntelRequest(
+        normalizedChain,
+        contract
+      );
+
+      // Store response data in KV store
+      await storeDataInKV(
+        `quickIntel_${normalizedChain}_${contract}`,
+        quickIntelResponse
+      );
+    } catch (error) {
+      console.error('Error handling API request:', error);
+      // Handle error here, such as displaying an error message to the user
+    }
+  }
+
+  // CA for testing purposes:
   // $DEGEN CA: 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed
-  // sendRequest(chain, contract).catch(console.error);
 
   return {
     image: isValidContract ? (
