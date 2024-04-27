@@ -1,7 +1,8 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
 import { NextRequest, NextResponse } from 'next/server';
-import { sendQuickIntelRequest, storeDataInKV } from '../../utils/apiUtils';
+import { sendQuickIntelRequest } from '../../utils/apiUtils';
+import { setKV, getKV } from '../../utils/kvHandler';
 
 /**
  * Waiting page with refresh for API calls
@@ -24,7 +25,7 @@ const handler = frames(async (ctx) => {
       );
 
       // Store response data in KV store
-      await storeDataInKV(
+      await setKV(
         `quickIntel_${normalizedChain}_${contract}`,
         quickIntelResponse
       );

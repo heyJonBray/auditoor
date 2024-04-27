@@ -33,17 +33,3 @@ export async function sendQuickIntelRequest(
     throw error; // Rethrow to handle error further up in the call stack
   }
 }
-
-// Store data in KV with eqpiry
-export async function storeDataInKV(
-  key: string,
-  data: any,
-  expiryInSeconds: number = 120
-): Promise<void> {
-  try {
-    await kv.set(key, data, { ex: expiryInSeconds });
-  } catch (error) {
-    console.error('Error storing data in KV:', error);
-    throw error; // Rethrow to handle error further up in the call stack
-  }
-}

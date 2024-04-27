@@ -1,6 +1,10 @@
 import { kv } from '@vercel/kv';
 
-export async function setKV(key: string, value: any) {
+export async function setKV(
+  key: string,
+  value: any,
+  expiryInSeconds: number = 120
+) {
   return await kv.set(key, JSON.stringify(value));
 }
 
