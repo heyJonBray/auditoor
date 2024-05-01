@@ -37,6 +37,12 @@ const handler = frames(async (ctx) => {
   // CA for testing purposes:
   // $DEGEN CA: 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed
 
+  console.log('Received data in /waiting:', {
+    chain,
+    contract,
+    isValidContract,
+  });
+
   return {
     image: isValidContract ? (
       <div

@@ -1,20 +1,26 @@
 // results/route.tsx
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
-import { sendQuickIntelRequest, parseTokenDetails } from '../../utils/apiUtils';
+import { parseTokenDetails } from '../../utils/apiUtils';
+import { getKV } from '../../utils/kvHandler';
 
 const handler = frames(async (ctx) => {
   const contract = ctx.searchParams.contract || '';
   const chain = ctx.searchParams.chain || '';
   const normalizedChain = chain.toLowerCase().replace(/\s/g, '');
+  const kvKey = `quickIntel_${normalizedChain}_${contract}`;
 
   let tokenDetails;
   try {
-    const apiResponse = await sendQuickIntelRequest(chain, contract);
-    tokenDetails = parseTokenDetails(apiResponse);
+    const cachedData = await getKV(kvKey);
+    if (cachedData) {
+      tokenDetails = parseTokenDetails(cachedData);
+    } else {
+      throw new Error('No cached data available.');
+    }
     if (!tokenDetails) throw new Error('Failed to parse token details.');
   } catch (error) {
-    console.error('API request or parsing failed:', error);
+    console.error('Error retrieving or parsing data from KV:', error);
     return {
       image: (
         <div
@@ -25,15 +31,17 @@ const handler = frames(async (ctx) => {
             justifyContent: 'center',
             height: '100vh',
             width: '100vw',
-            background: '#D32F2F',
+            background: '#D32F2F', // Using the reddish color for error states
             color: 'white',
             textAlign: 'center',
             padding: '20px',
             position: 'relative',
           }}
         >
-          <h3>Failed to retrieve audit data. Please try again.</h3>
-          <p>Error: API request failed.</p>
+          <h3>Failed to retrieve audit data for:</h3>
+          <p>{contract}</p>
+          <p>{chain}</p>
+          <p>Please try again.</p>
         </div>
       ),
       buttons: [
@@ -57,7 +65,7 @@ const handler = frames(async (ctx) => {
           justifyContent: 'center',
           height: '100vh',
           width: '100vw',
-          background: '#432889',
+          background: '#432889', // Standard blue background
           color: 'white',
           textAlign: 'center',
           padding: '20px',
@@ -87,7 +95,7 @@ const handler = frames(async (ctx) => {
         <h1>
           {tokenDetails.tokenName} ({tokenDetails.tokenSymbol})
         </h1>
-        <p>{tokenDetails.tokenDecimals}</p>
+        <p>{tokenDetails.tokenDecimals} decimals</p>
         <p>Ownership Status: {tokenDetails.tokenOwnerStatus}</p>
         <p
           style={{

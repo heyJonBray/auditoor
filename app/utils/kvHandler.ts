@@ -1,4 +1,3 @@
-// TODO: Replace KV with postgres
 import { kv } from '@vercel/kv';
 
 export async function setKV(

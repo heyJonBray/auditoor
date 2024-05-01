@@ -1,22 +1,22 @@
 import { kv } from '@vercel/kv';
 
-// API details
 const API_URL =
   process.env.QUICKINTEL_API_QUICK_AUDIT_FULL_URL ||
   'https://api.quickintel.io/v1/getquickiauditfull';
 const API_KEY = process.env.QUICKINTEL_API_KEY || 'INVALID API KEY';
 
-// Send request to QuickIntel API
 export async function sendQuickIntelRequest(
   chain: string,
   tokenAddress: string
 ): Promise<any> {
-  try {
-    // Log the details of the request
-    console.log('Sending request to URL:', API_URL);
-    console.log('Using API Key:', API_KEY);
-    console.log('Request Body:', { chain, tokenAddress });
+  console.log('Preparing to send API request', {
+    API_URL,
+    API_KEY,
+    chain,
+    tokenAddress,
+  });
 
+  try {
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
@@ -26,27 +26,31 @@ export async function sendQuickIntelRequest(
       body: JSON.stringify({ chain, tokenAddress }),
     });
 
-    // Log the response status
-    console.log('Response Status:', response.status);
+    console.log('API Response Received', { status: response.status });
 
     if (!response.ok) {
-      const errorBody = await response.text(); // Capturing the response body for non-200 responses
-      console.error('API Request Failed:', errorBody);
+      const errorBody = await response.text();
+      console.error('API Request Failed', {
+        status: response.status,
+        errorBody,
+      });
       throw new Error(
         `API request failed with status ${response.status}: ${errorBody}`
       );
     }
 
-    return await response.json();
+    const responseData = await response.json();
+    console.log('API Response Data', responseData);
+    return responseData;
   } catch (error) {
     console.error('Error during API request:', error);
-    throw error; // Rethrow to handle error further up in the call stack
+    throw error;
   }
 }
 
 export function parseTokenDetails(data: any) {
   if (!data || !data.tokenDetails) {
-    console.error('No token details data available');
+    console.error('Invalid or missing token details', data);
     return null;
   }
 
