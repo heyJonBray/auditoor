@@ -19,10 +19,10 @@ const handler = frames(async () => {
         }}
       >
         <h1 style={{ fontSize: '60px', marginTop: '30px' }}>
-          Don't get $FCKN scammed!
+          Contract Auditoor Frame
         </h1>
         <h1 style={{ fontSize: '40px', marginTop: '10px' }}>
-          Audit tokens before you buy.
+          Run a security check on tokens before you buy!
         </h1>
         <p
           style={{

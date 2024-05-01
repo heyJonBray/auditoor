@@ -1,10 +1,51 @@
+// results/route.tsx
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
+import { sendQuickIntelRequest, parseTokenDetails } from '../../utils/apiUtils';
 
-// Results page for formatted API results
 const handler = frames(async (ctx) => {
-  const { contract, chain } = ctx.searchParams;
-  const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
+  const contract = ctx.searchParams.contract || '';
+  const chain = ctx.searchParams.chain || '';
+  const normalizedChain = chain.toLowerCase().replace(/\s/g, '');
+
+  let tokenDetails;
+  try {
+    const apiResponse = await sendQuickIntelRequest(chain, contract);
+    tokenDetails = parseTokenDetails(apiResponse);
+    if (!tokenDetails) throw new Error('Failed to parse token details.');
+  } catch (error) {
+    console.error('API request or parsing failed:', error);
+    return {
+      image: (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+            width: '100vw',
+            background: '#D32F2F',
+            color: 'white',
+            textAlign: 'center',
+            padding: '20px',
+            position: 'relative',
+          }}
+        >
+          <h3>Failed to retrieve audit data. Please try again.</h3>
+          <p>Error: API request failed.</p>
+        </div>
+      ),
+      buttons: [
+        <Button
+          action="post"
+          target={{ pathname: '/contract', query: { contract, chain } }}
+        >
+          ⬅️ Try Again
+        </Button>,
+      ],
+    };
+  }
 
   return {
     image: (
@@ -35,23 +76,19 @@ const handler = frames(async (ctx) => {
           <img
             src={`https://github.com/heyJonBray/chain-logos/blob/master/png/${normalizedChain}Logo.png?raw=true`}
             alt={`${chain} Logo`}
-            style={{
-              width: '80px',
-              height: '80px',
-            }}
+            style={{ width: '80px', height: '80px' }}
           />
           <div
-            style={{
-              marginLeft: '20px',
-              fontSize: '35px',
-              fontWeight: 'bold',
-            }}
+            style={{ marginLeft: '20px', fontSize: '35px', fontWeight: 'bold' }}
           >
             {contract}
           </div>
         </div>
-        <h2>RESULTS GO HERE</h2>{' '}
-        {/* TODO: Fill in with QuickIntel API results */}
+        <h1>
+          {tokenDetails.tokenName} ({tokenDetails.tokenSymbol})
+        </h1>
+        <p>{tokenDetails.tokenDecimals}</p>
+        <p>Ownership Status: {tokenDetails.tokenOwnerStatus}</p>
         <p
           style={{
             position: 'absolute',
@@ -68,15 +105,9 @@ const handler = frames(async (ctx) => {
     buttons: [
       <Button
         action="post"
-        target={{ pathname: '/contract', query: { contract, chain } }}
+        target={{ pathname: '/results2', query: { contract, chain } }}
       >
-        Scan Again
-      </Button>,
-      <Button action="link" target="https://fckn.club/">
-        🍗
-      </Button>,
-      <Button action="link" target="https://warpcast.com/jonbray.eth">
-        ❓
+        Continue
       </Button>,
     ],
   };

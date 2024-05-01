@@ -1,8 +1,7 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
-import { NextRequest, NextResponse } from 'next/server';
 import { sendQuickIntelRequest } from '../../utils/apiUtils';
-import { setKV, getKV } from '../../utils/kvHandler';
+import { setKV } from '../../utils/kvHandler';
 
 /**
  * Waiting page with refresh for API calls
