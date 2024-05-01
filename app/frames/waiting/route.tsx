@@ -13,6 +13,7 @@ const handler = frames(async (ctx) => {
     ? /^0x[a-fA-F0-9]{40}$/.test(contract)
     : false;
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
+  const kvKey = `quickIntel_${normalizedChain}_${contract}`;
 
   if (isValidContract && chain && contract) {
     // Check if chain and contract are not undefined
