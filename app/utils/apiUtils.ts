@@ -1,14 +1,20 @@
 import { kv } from '@vercel/kv';
 
-const API_URL =
-  process.env.QUICKINTEL_API_QUICK_AUDIT_FULL_URL ||
-  'https://api.quickintel.io/v1/getquickiauditfull';
-const API_KEY = process.env.QUICKINTEL_API_KEY || 'INVALID API KEY';
+const API_URL = 'https://api.quickintel.io/v1/getquickiauditfull';
 
+// Send request to QuickIntel API
 export async function sendQuickIntelRequest(
   chain: string,
   tokenAddress: string
 ): Promise<any> {
+  const API_KEY = process.env.QUICKINTEL_API_KEY;
+
+  // Check if the API key is present
+  if (!API_KEY) {
+    console.error('API Key is missing!');
+    throw new Error('API Key is missing');
+  }
+
   console.log('Preparing to send API request', {
     API_URL,
     API_KEY,
@@ -21,7 +27,7 @@ export async function sendQuickIntelRequest(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-QKNTL-KEY': API_KEY,
+        'X-QKNTL-KEY': API_KEY, // Safe to use API_KEY here as we've checked it's not undefined
       },
       body: JSON.stringify({ chain, tokenAddress }),
     });
@@ -48,6 +54,7 @@ export async function sendQuickIntelRequest(
   }
 }
 
+// apiUtils.ts
 export function parseTokenDetails(data: any) {
   if (!data || !data.tokenDetails) {
     console.error('Invalid or missing token details', data);
