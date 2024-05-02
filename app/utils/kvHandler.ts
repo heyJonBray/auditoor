@@ -1,33 +1,37 @@
 import { kv } from '@vercel/kv';
 
-export async function setKV(
-  key: string,
-  value: any,
-  expiryInSeconds: number = 120
-) {
+/**
+ * Sets a value in the Vercel KV store.
+ * @param key Key for the data
+ * @param value Data to store
+ */
+export async function setKV(key: string, value: any) {
   try {
-    const stringValue =
-      typeof value === 'string' ? value : JSON.stringify(value);
-    await kv.set(key, stringValue, { ex: expiryInSeconds });
-    console.log(`Set ${key} in KV store.`);
+    await kv.set(key, JSON.stringify(value));
+    console.log(`Data stored in KV for key: ${key}`);
   } catch (error) {
-    console.error(`Error setting ${key} in KV store:`, error);
+    console.error(`Failed to store data in KV for key: ${key}`, error);
     throw error;
   }
 }
 
-export async function getKV(key: string) {
+/**
+ * Retrieves a value from the Vercel KV store.
+ * @param key Key for the data
+ * @returns The retrieved data or null if not found or any error occurs.
+ */
+export async function getKV(key: string): Promise<any | null> {
   try {
     const data = await kv.get(key);
-    if (typeof data === 'string') {
-      console.log(`Retrieved ${key} from KV store:`, data);
-      return JSON.parse(data);
+    if (data) {
+      console.log(`Data retrieved from KV for key: ${key}`);
+      return JSON.parse(data as string);
     } else {
-      console.error(`Retrieved data for ${key} is not a string:`, data);
+      console.log(`No data found in KV for key: ${key}`);
       return null;
     }
   } catch (error) {
-    console.error(`Error retrieving ${key} from KV store:`, error);
-    throw error;
+    console.error(`Failed to retrieve data from KV for key: ${key}`, error);
+    return null;
   }
 }

@@ -9,7 +9,6 @@ export async function sendQuickIntelRequest(
 ): Promise<any> {
   const API_KEY = process.env.QUICKINTEL_API_KEY;
 
-  // Check if the API key is present
   if (!API_KEY) {
     console.error('API Key is missing!');
     throw new Error('API Key is missing');
