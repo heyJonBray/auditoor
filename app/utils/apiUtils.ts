@@ -7,7 +7,8 @@ export async function sendQuickIntelRequest(
   chain: string,
   tokenAddress: string
 ): Promise<any> {
-  const API_KEY = process.env.QUICKINTEL_API_KEY;
+  // const API_KEY = process.env.QUICKINTEL_API_KEY;
+  const API_KEY = '2c9c22386a5547968e3b20753abef614';
 
   if (!API_KEY) {
     console.error('API Key is missing!');

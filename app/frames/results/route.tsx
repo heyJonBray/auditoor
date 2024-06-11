@@ -13,12 +13,13 @@ const handler = frames(async (ctx) => {
   let tokenDetails;
   try {
     const cachedData = await getKV(kvKey);
-    if (cachedData) {
-      tokenDetails = parseTokenDetails(cachedData);
-    } else {
+    if (!cachedData) {
       throw new Error('No cached data available.');
     }
-    if (!tokenDetails) throw new Error('Failed to parse token details.');
+    tokenDetails = parseTokenDetails(cachedData);
+    if (!tokenDetails) {
+      throw new Error('Failed to parse token details.');
+    }
   } catch (error) {
     console.error('Error retrieving or parsing data from KV:', error);
     return {
