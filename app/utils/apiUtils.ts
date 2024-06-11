@@ -1,6 +1,6 @@
+import { supabase } from './supabaseClient';
 const API_URL = 'https://api.quickintel.io/v1/getquickiauditfull';
 
-// Define a type for the API response data
 interface TokenDetails {
   tokenName: string;
   tokenSymbol: string;
@@ -55,6 +55,16 @@ export async function sendQuickIntelRequest(
 
     const responseData: QuickIntelResponse = await response.json();
     console.log('API Response Data', responseData);
+
+    // Store the response data in Supabase
+    const { data, error } = await supabase
+      .from('quickintel_results')
+      .insert([{ chain, tokenAddress, response: responseData }]);
+
+    if (error) {
+      console.error('Error storing data in Supabase:', error);
+      throw error;
+    }
     return responseData;
   } catch (error) {
     console.error('Error during API request:', error);
