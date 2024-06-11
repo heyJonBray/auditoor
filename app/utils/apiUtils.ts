@@ -1,14 +1,23 @@
-import { kv } from '@vercel/kv';
-
 const API_URL = 'https://api.quickintel.io/v1/getquickiauditfull';
+
+// Define a type for the API response data
+interface TokenDetails {
+  tokenName: string;
+  tokenSymbol: string;
+  tokenDecimals: number;
+  tokenOwner: string;
+}
+
+interface QuickIntelResponse {
+  tokenDetails: TokenDetails;
+}
 
 // Send request to QuickIntel API
 export async function sendQuickIntelRequest(
   chain: string,
   tokenAddress: string
-): Promise<any> {
-  // const API_KEY = process.env.QUICKINTEL_API_KEY;
-  const API_KEY = '2c9c22386a5547968e3b20753abef614';
+): Promise<QuickIntelResponse> {
+  const API_KEY = process.env.QUICKINTEL_API_KEY;
 
   if (!API_KEY) {
     console.error('API Key is missing!');
@@ -17,7 +26,6 @@ export async function sendQuickIntelRequest(
 
   console.log('Preparing to send API request', {
     API_URL,
-    API_KEY,
     chain,
     tokenAddress,
   });
@@ -27,7 +35,7 @@ export async function sendQuickIntelRequest(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-QKNTL-KEY': API_KEY, // Safe to use API_KEY here as we've checked it's not undefined
+        'X-QKNTL-KEY': API_KEY,
       },
       body: JSON.stringify({ chain, tokenAddress }),
     });
@@ -45,7 +53,7 @@ export async function sendQuickIntelRequest(
       );
     }
 
-    const responseData = await response.json();
+    const responseData: QuickIntelResponse = await response.json();
     console.log('API Response Data', responseData);
     return responseData;
   } catch (error) {
@@ -54,8 +62,8 @@ export async function sendQuickIntelRequest(
   }
 }
 
-// apiUtils.ts
-export function parseTokenDetails(data: any) {
+// Parse token details from the API response
+export function parseTokenDetails(data: QuickIntelResponse) {
   if (!data || !data.tokenDetails) {
     console.error('Invalid or missing token details', data);
     return null;
