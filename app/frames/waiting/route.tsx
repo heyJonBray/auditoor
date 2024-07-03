@@ -1,7 +1,6 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
 import { sendQuickIntelRequest } from '../../utils/apiUtils';
-import { setKV } from '../../utils/kvHandler';
 
 /**
  * Waiting page with refresh for API calls
@@ -15,34 +14,7 @@ const handler = frames(async (ctx) => {
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
   const kvKey = `quickIntel_${normalizedChain}_${contract}`;
 
-  if (isValidContract && chain && contract) {
-    // Check if chain and contract are not undefined
-    try {
-      // Initiate API request
-      const quickIntelResponse = await sendQuickIntelRequest(
-        normalizedChain,
-        contract
-      );
-
-      // Store response data in KV store
-      await setKV(
-        `quickIntel_${normalizedChain}_${contract}`,
-        quickIntelResponse
-      );
-    } catch (error) {
-      console.error('Error handling API request:', error);
-      // Handle error here, such as displaying an error message to the user
-    }
-  }
-
-  // CA for testing purposes:
-  // $DEGEN CA: 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed
-
-  console.log('Received data in /waiting:', {
-    chain,
-    contract,
-    isValidContract,
-  });
+  // Submit contract + chain to QuickIntel API
 
   return {
     image: isValidContract ? (
@@ -73,17 +45,10 @@ const handler = frames(async (ctx) => {
           <img
             src={`https://github.com/heyJonBray/chain-logos/blob/master/png/${normalizedChain}Logo.png?raw=true`}
             alt={`${chain} Logo`}
-            style={{
-              width: '80px',
-              height: '80px',
-            }}
+            style={{ width: '80px', height: '80px' }}
           />
           <div
-            style={{
-              marginLeft: '20px',
-              fontSize: '35px',
-              fontWeight: 'bold',
-            }}
+            style={{ marginLeft: '20px', fontSize: '35px', fontWeight: 'bold' }}
           >
             {contract}
           </div>

@@ -1,15 +1,24 @@
-import { kv } from '@vercel/kv';
-
+import { supabase } from './supabaseClient';
 const API_URL = 'https://api.quickintel.io/v1/getquickiauditfull';
+
+interface TokenDetails {
+  tokenName: string;
+  tokenSymbol: string;
+  tokenDecimals: number;
+  tokenOwner: string;
+}
+
+interface QuickIntelResponse {
+  tokenDetails: TokenDetails;
+}
 
 // Send request to QuickIntel API
 export async function sendQuickIntelRequest(
   chain: string,
   tokenAddress: string
-): Promise<any> {
-  const API_KEY = process.env.QUICKINTEL_API_KEY;
+): Promise<QuickIntelResponse> {
+  const API_KEY = process.env.NEXT_PUBLIC_QUICKINTEL_API_KEY;
 
-  // Check if the API key is present
   if (!API_KEY) {
     console.error('API Key is missing!');
     throw new Error('API Key is missing');
@@ -17,7 +26,6 @@ export async function sendQuickIntelRequest(
 
   console.log('Preparing to send API request', {
     API_URL,
-    API_KEY,
     chain,
     tokenAddress,
   });
@@ -27,7 +35,7 @@ export async function sendQuickIntelRequest(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-QKNTL-KEY': API_KEY, // Safe to use API_KEY here as we've checked it's not undefined
+        'X-QKNTL-KEY': API_KEY,
       },
       body: JSON.stringify({ chain, tokenAddress }),
     });
@@ -45,8 +53,18 @@ export async function sendQuickIntelRequest(
       );
     }
 
-    const responseData = await response.json();
+    const responseData: QuickIntelResponse = await response.json();
     console.log('API Response Data', responseData);
+
+    // Store the response data in Supabase
+    const { data, error } = await supabase
+      .from('quickintel_results')
+      .insert([{ chain, tokenAddress, response: responseData }]);
+
+    if (error) {
+      console.error('Error storing data in Supabase:', error);
+      throw error;
+    }
     return responseData;
   } catch (error) {
     console.error('Error during API request:', error);
@@ -54,8 +72,8 @@ export async function sendQuickIntelRequest(
   }
 }
 
-// apiUtils.ts
-export function parseTokenDetails(data: any) {
+// Parse token details from the API response
+export function parseTokenDetails(data: QuickIntelResponse) {
   if (!data || !data.tokenDetails) {
     console.error('Invalid or missing token details', data);
     return null;
