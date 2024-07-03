@@ -1,7 +1,6 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
 import { sendQuickIntelRequest } from '../../utils/apiUtils';
-import { setKV } from '../../utils/kvHandler';
 
 /**
  * Waiting page with refresh for API calls
@@ -13,22 +12,8 @@ const handler = frames(async (ctx) => {
     ? /^0x[a-fA-F0-9]{40}$/.test(contract)
     : false;
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
-  const kvKey = `quickIntel_${normalizedChain}_${contract}`;
 
-  if (isValidContract && chain && contract) {
-    try {
-      const quickIntelResponse = await sendQuickIntelRequest(
-        normalizedChain,
-        contract
-      );
-
-      // Store response data in KV store directly here
-      await setKV(kvKey, quickIntelResponse);
-    } catch (error) {
-      console.error('Error handling API request:', error);
-      // Optional: Return an error message to the user or redirect to an error page
-    }
-  }
+  // Submit contract + chain to QuickIntel API
 
   return {
     image: isValidContract ? (
