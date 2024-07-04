@@ -1,4 +1,5 @@
 import { frames } from './frames';
+import { FramesMiddleware } from 'frames.js/types';
 import { Button } from 'frames.js/next';
 import {
   AllowListCriteriaEnum as AllowListCriteria,
@@ -6,11 +7,11 @@ import {
   TokenBlockchain,
 } from '@airstack/frames';
 
+// airstack middleware
+
 const handler = frames(
   async (ctx) => {
-    // Use 'ctx.isAllowed' to check if the user is allowed to access the frame
-    // based on the Farcaster followers count
-    console.log(ctx.isAllowed);
+    console.log(ctx.isAllowed); // check if user is allowed to access frame
     return {
       // todo: update this to a splash screen
       image: (
@@ -62,22 +63,20 @@ const handler = frames(
   },
   {
     middleware: [
-      // Allow List Middleware
       allowList({
-        apiKey: process.env.NEXT_PUBLIC_AIRSTACK_API_KEY as string,
+        apiKey: process.env.AIRSTACK_API_KEY as string,
         criteria: {
           or: [
-            // Only allow holders of this token on Base
             [
-              AllowListCriteria.TOKEN_MINT,
+              AllowListCriteria.TOKEN_HOLD,
               {
                 chain: TokenBlockchain.Base,
-                address: '0x4c17ff12d9a925a0dec822a8cbf06f46c6268553',
+                address: '0xec5461aa3a8cac1095b04d00ac7cabab87a2a7ec', // paid group stub (test)
               },
             ],
           ],
         },
-      }),
+      }) as unknown as any, // force compatible type
     ],
   }
 );
