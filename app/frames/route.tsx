@@ -1,13 +1,10 @@
 import { frames } from './frames';
-import { FramesMiddleware } from 'frames.js/types';
 import { Button } from 'frames.js/next';
 import {
   AllowListCriteriaEnum as AllowListCriteria,
   allowListFramesjsMiddleware as allowList,
   TokenBlockchain,
 } from '@airstack/frames';
-
-// airstack middleware
 
 const handler = frames(
   async (ctx) => {
@@ -23,7 +20,7 @@ const handler = frames(
             justifyContent: 'center',
             height: '100vh',
             width: '100vw',
-            background: '#432889',
+            background: '#2e2e2e',
             color: 'white',
             textAlign: 'center',
             padding: '20px',

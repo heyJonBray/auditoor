@@ -16,7 +16,7 @@ const handler = frames(async (ctx) => {
           justifyContent: 'center',
           height: '100vh',
           width: '100vw',
-          background: '#432889',
+          background: '#2e2e2e',
           color: 'white',
           textAlign: 'center',
           padding: '20px',
