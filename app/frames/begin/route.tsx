@@ -61,7 +61,7 @@ const handler = frames(
   {
     middleware: [
       allowList({
-        apiKey: process.env.AIRSTACK_API_KEY as string,
+        apiKey: process.env.NEXT_PUBLIC_AIRSTACK_API_KEY as string,
         criteria: {
           or: [
             [

@@ -1,7 +1,7 @@
 import { frames } from './frames';
 import { Button } from 'frames.js/next';
 
-const handler = frames(async () => {
+const handler = frames(async (ctx) => {
   return {
     // todo: update this to a splash screen
     image: (
