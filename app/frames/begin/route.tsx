@@ -68,7 +68,7 @@ const handler = frames(
               AllowListCriteria.TOKEN_HOLD,
               {
                 chain: TokenBlockchain.Base,
-                tokenAddress: '0xec5461aa3a8cac1095b04d00ac7cabab87a2a7ec', // paid group stub (test)
+                tokenAddress: '0xec5461aa3a8cac1095b04d00ac7cabab87a2a7ec', // paid group stub (test NFT)
               },
             ],
           ],
