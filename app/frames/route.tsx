@@ -1,9 +1,10 @@
 import { frames } from './frames';
 import { Button } from 'frames.js/next';
+import Image from 'next/image';
+import imageSrc from './assets/anti-rug-splash.png';
 
-const handler = frames(async (ctx) => {
+const handler = frames(async () => {
   return {
-    // todo: update this to a splash screen
     image: (
       <div
         style={{
@@ -19,23 +20,13 @@ const handler = frames(async (ctx) => {
           padding: '20px',
         }}
       >
-        <h1 style={{ fontSize: '60px', marginTop: '30px' }}>
-          The Growth Cult Auditoor
-        </h1>
-        <h1 style={{ fontSize: '40px', marginTop: '10px' }}>
-          Run a security check on tokens before you buy! Start now or mint.
-        </h1>
-        <p
-          style={{
-            position: 'absolute',
-            bottom: '10px',
-            right: '25px',
-            fontWeight: 'bold',
-            fontSize: '25px',
-          }}
-        >
-          Powered by QuickIntel API
-        </p>
+        <Image
+          src={imageSrc}
+          alt="The Growth Cult - Anti Rug System splash screen"
+          layout="fill"
+          width={1000}
+          height={500}
+        />
       </div>
     ),
     buttons: [
