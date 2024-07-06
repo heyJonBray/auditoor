@@ -20,10 +20,10 @@ const handler = frames(async () => {
           width: '100vw',
           color: 'white',
           padding: '20px',
-          backgroundImage: `url(${backgroundImageUrl})`,
-          backgroundSize: 'contain',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
+          // backgroundImage: `url(${backgroundImageUrl})`,
+          // backgroundSize: 'contain',
+          // backgroundPosition: 'center',
+          // backgroundRepeat: 'no-repeat',
         }}
       >
         <p
