@@ -12,10 +12,11 @@ const nftAddress = '0xec5461aa3a8cac1095b04d00ac7cabab87a2a7ec';
 // isAllowed = false
 // const nftAddress = '0xec5461aa3a8cac1095b04d00ac7cabab87a2a7ee';
 
+const nftPassAddress = '';
+
 const handler = frames(
   async (ctx) => {
     console.log(ctx.isAllowed); // check if user is allowed to access frame
-
     if (ctx.isAllowed) {
       return {
         image: (
@@ -83,6 +84,7 @@ const handler = frames(
         ],
       };
     } else {
+      // user does not own required NFT
       return {
         image: (
           <div
@@ -147,7 +149,7 @@ const handler = frames(
           <Button
             key="subscribe"
             action="link"
-            target={'https://example.com/subscribe'} // Replace with NFT mint URL
+            target={'https://example.com/subscribe'} // todo: NFT mint URL
           >
             Purchase
           </Button>,
