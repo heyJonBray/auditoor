@@ -136,7 +136,10 @@ const handler = frames(async (ctx) => {
           <Button
             key="refresh"
             action="post"
-            target={{ pathname: '/results', query: { id: responseId } }}
+            target={{
+              pathname: '/results',
+              query: { contract, chain, id: responseId },
+            }}
           >
             🔃 Refresh
           </Button>,
