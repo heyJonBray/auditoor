@@ -2,7 +2,6 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
 import { parseTokenDetails } from '../../utils/apiUtils';
-import { getKV } from '../../utils/kvHandler';
 
 const handler = frames(async (ctx) => {
   const contract = ctx.searchParams.contract || '';
@@ -38,6 +37,7 @@ const handler = frames(async (ctx) => {
         >
           <img
             src={`https://github.com/heyJonBray/chain-logos/blob/master/png/${normalizedChain}Logo.png?raw=true`}
+            alt=""
             style={{ width: '50px', height: '50px' }}
           />
           <div
