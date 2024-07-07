@@ -1,6 +1,6 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
-import { fetchAuditData } from '../../utils/apiUtils';
+import { fetchAuditData, saveAuditDataToSupabase } from '../../utils/apiUtils';
 
 /**
  * This frame is where data is sent to QuickIntel API
@@ -8,9 +8,12 @@ import { fetchAuditData } from '../../utils/apiUtils';
  * if the contract address is valid:
  *  1. Display waiting screen + refresh button
  *  2. Submit contract + chain to QuickIntel API
+ *  3. Save response data to Supabase and get identifier
+ *  4. Pass identifier to next frame using context
  *
  * if the contract address is invalid:
  *  1. Display error screen
+ *  2. Send user back to contract frame with chain saved
  */
 const handler = frames(async (ctx) => {
   const chain = ctx.searchParams.chain;
@@ -20,16 +23,21 @@ const handler = frames(async (ctx) => {
     : false;
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
 
+  let responseId;
+
   if (isValidContract && normalizedChain && contract) {
     try {
-      const response = await fetchAuditData(normalizedChain, contract);
-      console.log('QuickIntel API Response:', response);
+      const responseData = await fetchAuditData(normalizedChain, contract);
+      console.log('QuickIntel API Response:', responseData);
 
-      // todo: store response in context to pass to next frame
-      // todo: if context doesn't work, use Supabase
+      responseId = await saveAuditDataToSupabase(
+        normalizedChain,
+        contract,
+        responseData
+      );
+      console.log('Saved response ID:', responseId);
     } catch (error) {
-      console.error('Error fetching data from QuickIntel API:', error);
-      // todo: error handling
+      console.error('Error fetching audit data:', error);
     }
   }
 
@@ -128,7 +136,7 @@ const handler = frames(async (ctx) => {
           <Button
             key="refresh"
             action="post"
-            target={{ pathname: '/results', query: { contract, chain } }}
+            target={{ pathname: '/results', query: { id: responseId } }}
           >
             🔃 Refresh
           </Button>,

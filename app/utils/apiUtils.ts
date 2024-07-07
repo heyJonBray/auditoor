@@ -1,14 +1,13 @@
+import { supabase } from './supabaseClient';
 import { QuickIntelResponse } from './quickIntelTypes';
 
 const API_URL = 'https://api.quickintel.io/v1/getquickiauditfull';
 const API_KEY = process.env.QUICKINTEL_API_KEY;
 
-// Ensure API key is available
 if (!API_KEY) {
   throw new Error('Missing API key for QuickIntel');
 }
 
-// Send request to QuickIntel API
 export async function fetchAuditData(
   chain: string,
   tokenAddress: string
@@ -25,21 +24,32 @@ export async function fetchAuditData(
 
     if (!response.ok) {
       const errorBody = await response.text();
-      console.error('API Request Failed', {
-        status: response.status,
-        errorBody,
-      });
       throw new Error(
         `API request failed with status ${response.status}: ${errorBody}`
       );
     }
 
     const responseData: QuickIntelResponse = await response.json();
-    console.log('API Response Data', responseData);
-
     return responseData;
   } catch (error) {
     console.error('Error during API request:', error);
     throw error;
   }
+}
+
+export async function saveAuditDataToSupabase(
+  chain: string,
+  tokenAddress: string,
+  responseData: QuickIntelResponse
+) {
+  const { data, error } = await supabase
+    .from('quickintel_results')
+    .insert([{ chain, tokenAddress, response: responseData }])
+    .select();
+
+  if (error) {
+    throw new Error(`Error storing data in Supabase: ${error.message}`);
+  }
+
+  return data[0].id; // Assuming `id` is the primary key and is returned after insertion
 }
