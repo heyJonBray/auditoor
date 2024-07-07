@@ -36,6 +36,7 @@ const handler = frames(async () => {
           <h1
             style={{
               fontSize: '75px',
+              fontWeight: 'bold',
               color: 'lightblue',
               margin: '-20px 0 0 0',
               padding: 0,
@@ -46,6 +47,7 @@ const handler = frames(async () => {
           <h1
             style={{
               fontSize: '75px',
+              fontWeight: 'bold',
               color: 'lightblue',
               margin: '-30px 0 0 0',
               padding: 0,
@@ -56,8 +58,9 @@ const handler = frames(async () => {
           <h1
             style={{
               fontSize: '75px',
+              fontWeight: 'bold',
               color: 'lightblue',
-              margin: '-30px 0 10px 0',
+              margin: '-30px 0 40px 0',
               padding: 0,
             }}
           >

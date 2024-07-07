@@ -7,10 +7,10 @@ import {
 } from '@airstack/frames';
 
 // testing addresses, comment out the one that isn't needed
-// test address = true
-// const nftAddress = '0xec5461aa3a8cac1095b04d00ac7cabab87a2a7ec';
-// test address = false
-const nftAddress = '0xec5461aa3a8cac1095b04d00ac7cabab87a2a7ee';
+// isAllowed = true
+const nftAddress = '0xec5461aa3a8cac1095b04d00ac7cabab87a2a7ec';
+// isAllowed = false
+// const nftAddress = '0xec5461aa3a8cac1095b04d00ac7cabab87a2a7ee';
 
 const handler = frames(
   async (ctx) => {
