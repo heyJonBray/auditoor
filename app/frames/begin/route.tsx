@@ -74,6 +74,7 @@ const handler = frames(
         ),
         buttons: [
           <Button
+            key="start"
             action="post"
             target={{ pathname: '/chain1', query: { foo: 'bar' } }}
           >
@@ -140,10 +141,11 @@ const handler = frames(
           </div>
         ),
         buttons: [
-          <Button action="post" target={{ pathname: '/begin' }}>
+          <Button key="refresh" action="post" target={{ pathname: '/begin' }}>
             Refresh
           </Button>,
           <Button
+            key="subscribe"
             action="link"
             target={'https://example.com/subscribe'} // Replace with NFT mint URL
           >

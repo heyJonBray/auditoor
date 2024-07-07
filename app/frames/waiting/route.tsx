@@ -109,6 +109,7 @@ const handler = frames(async (ctx) => {
     buttons: isValidContract
       ? [
           <Button
+            key="refresh"
             action="post"
             target={{ pathname: '/results', query: { contract, chain } }}
           >
@@ -117,6 +118,7 @@ const handler = frames(async (ctx) => {
         ]
       : [
           <Button
+            key="back"
             action="post"
             target={{ pathname: '/contract', query: { contract, chain } }}
           >

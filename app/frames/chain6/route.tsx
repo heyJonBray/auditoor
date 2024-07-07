@@ -52,24 +52,27 @@ const handler = frames(async () => {
     ),
     buttons: [
       <Button
+        key="1"
         action="post"
         target={{ pathname: '/contract', query: { chain: 'Scroll' } }}
       >
         Scroll
       </Button>,
       <Button
+        key="2"
         action="post"
         target={{ pathname: '/contract', query: { chain: 'zkSync' } }}
       >
         zkSync
       </Button>,
       <Button
+        key="3"
         action="post"
         target={{ pathname: '/contract', query: { chain: 'Zora' } }}
       >
         Zora
       </Button>,
-      <Button action="post" target="/chain1">
+      <Button key="back" action="post" target="/chain1">
         ↩️
       </Button>,
     ],

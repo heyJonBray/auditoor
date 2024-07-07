@@ -125,15 +125,24 @@ const handler = frames(async () => {
     ),
     buttons: [
       <Button
+        key="start"
         action="post"
         target={{ pathname: '/begin', query: { foo: 'bar' } }}
       >
         Start
       </Button>,
-      <Button action="link" target={'https://warpcast.com/jonbray.eth'}>
+      <Button
+        key="faq"
+        action="link"
+        target={'https://warpcast.com/jonbray.eth'}
+      >
         FAQ
       </Button>,
-      <Button action="link" target={'https://warpcast.com/jonbray.eth'}>
+      <Button
+        key="dev"
+        action="link"
+        target={'https://warpcast.com/jonbray.eth'}
+      >
         dev
       </Button>,
     ],

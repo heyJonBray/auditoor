@@ -34,18 +34,10 @@ const handler = frames(async (ctx) => {
         >
           <img
             src={`https://github.com/heyJonBray/chain-logos/blob/master/png/${normalizedChain}Logo.png?raw=true`}
-            alt={`${chain} Logo`}
-            style={{
-              width: '80px',
-              height: '80px',
-            }}
+            style={{ width: '50px', height: '50px' }}
           />
           <div
-            style={{
-              marginLeft: '20px',
-              fontSize: '35px',
-              fontWeight: 'bold',
-            }}
+            style={{ marginLeft: '20px', fontSize: '35px', fontWeight: 'bold' }}
           >
             {contract}
           </div>
@@ -67,15 +59,21 @@ const handler = frames(async (ctx) => {
     ),
     buttons: [
       <Button
+        key="scan-again"
         action="post"
         target={{ pathname: '/contract', query: { contract, chain } }}
       >
         Scan Again
       </Button>,
-      <Button action="link" target="https://fckn.club/">
+      <Button key="tip" action="link" target="https://warpcast.com/jonbray.eth">
         Tip Dev 🎩
       </Button>,
-      <Button action="link" target="https://warpcast.com/jonbray.eth">
+      // todo: add a share button that returns a frame with the action link
+      <Button
+        key="share"
+        action="link"
+        target="https://warpcast.com/jonbray.eth"
+      >
         ❓
       </Button>,
     ],

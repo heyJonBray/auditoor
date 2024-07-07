@@ -51,27 +51,28 @@ const handler = frames(async () => {
       </div>
     ),
     buttons: [
-      // With query params
       <Button
+        key="1"
         action="post"
         target={{ pathname: '/contract', query: { chain: 'Degen' } }}
       >
         Degen
       </Button>,
       <Button
+        key="2"
         action="post"
         target={{ pathname: '/contract', query: { chain: 'Ethereum' } }}
       >
         Ethereum
       </Button>,
       <Button
+        key="3"
         action="post"
         target={{ pathname: '/contract', query: { chain: 'Fantom' } }}
       >
         Fantom
       </Button>,
-      // Without query params
-      <Button action="post" target="/chain4">
+      <Button key="next" action="post" target="/chain4">
         ➡️
       </Button>,
     ],

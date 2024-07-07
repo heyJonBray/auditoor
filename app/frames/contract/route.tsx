@@ -1,6 +1,9 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
 
+// valid contract address for testing
+// 0x9e13480a81af1dea2f255761810ef8d6cbf21735
+
 const handler = frames(async (ctx) => {
   const chain = ctx.searchParams.chain;
   const contract = ctx.message?.inputText;
@@ -51,12 +54,13 @@ const handler = frames(async (ctx) => {
     textInput: '0x69...420' || contract,
     buttons: [
       <Button
+        key="scan"
         action="post"
         target={{ pathname: '/waiting', query: { contract, chain } }}
       >
         Scan
       </Button>,
-      <Button action="post" target={`/chain1`}>
+      <Button key="back" action="post" target={`/chain1`}>
         ↩️
       </Button>,
     ],

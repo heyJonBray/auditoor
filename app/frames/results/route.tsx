@@ -8,53 +8,7 @@ const handler = frames(async (ctx) => {
   const contract = ctx.searchParams.contract || '';
   const chain = ctx.searchParams.chain || '';
   const normalizedChain = chain.toLowerCase().replace(/\s/g, '');
-  const kvKey = `quickIntel_${normalizedChain}_${contract}`;
-
-  let tokenDetails;
-  try {
-    const cachedData = await getKV(kvKey);
-    if (!cachedData) {
-      throw new Error('No cached data available.');
-    }
-    tokenDetails = parseTokenDetails(cachedData);
-    if (!tokenDetails) {
-      throw new Error('Failed to parse token details.');
-    }
-  } catch (error) {
-    console.error('Error retrieving or parsing data from KV:', error);
-    return {
-      image: (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100vh',
-            width: '100vw',
-            background: '#D32F2F', // Using the reddish color for error states
-            color: 'white',
-            textAlign: 'center',
-            padding: '20px',
-            position: 'relative',
-          }}
-        >
-          <h3>Failed to retrieve audit data for:</h3>
-          <p>{contract}</p>
-          <p>{chain}</p>
-          <p>Please try again.</p>
-        </div>
-      ),
-      buttons: [
-        <Button
-          action="post"
-          target={{ pathname: '/contract', query: { contract, chain } }}
-        >
-          ⬅️ Try Again
-        </Button>,
-      ],
-    };
-  }
+  // const kvKey = `quickIntel_${normalizedChain}_${contract}`;
 
   return {
     image: (
@@ -84,8 +38,7 @@ const handler = frames(async (ctx) => {
         >
           <img
             src={`https://github.com/heyJonBray/chain-logos/blob/master/png/${normalizedChain}Logo.png?raw=true`}
-            alt={`${chain} Logo`}
-            style={{ width: '80px', height: '80px' }}
+            style={{ width: '50px', height: '50px' }}
           />
           <div
             style={{ marginLeft: '20px', fontSize: '35px', fontWeight: 'bold' }}
@@ -93,11 +46,9 @@ const handler = frames(async (ctx) => {
             {contract}
           </div>
         </div>
-        <h1>
-          {tokenDetails.tokenName} ({tokenDetails.tokenSymbol})
-        </h1>
-        <p>{tokenDetails.tokenDecimals} decimals</p>
-        <p>Ownership Status: {tokenDetails.tokenOwnerStatus}</p>
+        <h2>TokenName | TokenSymbol</h2>
+        <p>N decimals</p>
+        <p>Ownership Status: Renounced | or Owned (address)</p>
         <p
           style={{
             position: 'absolute',
@@ -113,6 +64,7 @@ const handler = frames(async (ctx) => {
     ),
     buttons: [
       <Button
+        key="next"
         action="post"
         target={{ pathname: '/results2', query: { contract, chain } }}
       >
