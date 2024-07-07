@@ -7,7 +7,6 @@ const handler = frames(async (ctx) => {
   const contract = ctx.searchParams.contract || '';
   const chain = ctx.searchParams.chain || '';
   const normalizedChain = chain.toLowerCase().replace(/\s/g, '');
-  // const kvKey = `quickIntel_${normalizedChain}_${contract}`;
 
   return {
     image: (
@@ -19,7 +18,7 @@ const handler = frames(async (ctx) => {
           justifyContent: 'center',
           height: '100vh',
           width: '100vw',
-          background: '#2e2e2e', // standard background
+          background: '#2e2e2e',
           color: 'white',
           textAlign: 'center',
           padding: '20px',

@@ -131,20 +131,6 @@ const handler = frames(async () => {
       >
         Start
       </Button>,
-      <Button
-        key="faq"
-        action="link"
-        target={'https://warpcast.com/jonbray.eth'}
-      >
-        FAQ
-      </Button>,
-      <Button
-        key="dev"
-        action="link"
-        target={'https://warpcast.com/jonbray.eth'}
-      >
-        dev
-      </Button>,
     ],
   };
 });
