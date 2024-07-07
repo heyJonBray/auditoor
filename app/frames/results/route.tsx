@@ -1,7 +1,6 @@
 // results/route.tsx
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
-import { parseTokenDetails } from '../../utils/apiUtils';
 
 const handler = frames(async (ctx) => {
   const contract = ctx.searchParams.contract || '';

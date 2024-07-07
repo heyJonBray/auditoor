@@ -57,7 +57,7 @@ const handler = frames(
               Anti Rug System
             </h1>
             <h1 style={{ fontSize: '40px', marginTop: '10px' }}>
-              Run a security check on tokens before you buy!
+              Run a security check on tokens before you buy.
             </h1>
             <p
               style={{
