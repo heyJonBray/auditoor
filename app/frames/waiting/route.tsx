@@ -1,9 +1,16 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
-import { sendQuickIntelRequest } from '../../utils/apiUtils';
+import { fetchAuditData } from '../../utils/apiUtils';
 
 /**
- * Waiting page with refresh for API calls
+ * This frame is where data is sent to QuickIntel API
+ *
+ * if the contract address is valid:
+ *  1. Display waiting screen + refresh button
+ *  2. Submit contract + chain to QuickIntel API
+ *
+ * if the contract address is invalid:
+ *  1. Display error screen
  */
 const handler = frames(async (ctx) => {
   const chain = ctx.searchParams.chain;
@@ -13,7 +20,18 @@ const handler = frames(async (ctx) => {
     : false;
   const normalizedChain = chain ? chain.toLowerCase().replace(/\s/g, '') : '';
 
-  // Submit contract + chain to QuickIntel API
+  if (isValidContract && normalizedChain && contract) {
+    try {
+      const response = await fetchAuditData(normalizedChain, contract);
+      console.log('QuickIntel API Response:', response);
+
+      // todo: store response in context to pass to next frame
+      // todo: if context doesn't work, use Supabase
+    } catch (error) {
+      console.error('Error fetching data from QuickIntel API:', error);
+      // todo: error handling
+    }
+  }
 
   return {
     image: isValidContract ? (

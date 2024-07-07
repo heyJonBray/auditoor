@@ -1,7 +1,7 @@
 import { QuickIntelResponse } from './quickIntelTypes';
 
 const API_URL = 'https://api.quickintel.io/v1/getquickiauditfull';
-const API_KEY = process.env.NEXT_PUBLIC_QUICKINTEL_API_KEY;
+const API_KEY = process.env.QUICKINTEL_API_KEY;
 
 // Ensure API key is available
 if (!API_KEY) {
