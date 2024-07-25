@@ -47,7 +47,7 @@ function formatTokenDetails(
     ownershipStatus,
     supply: tokenSupply.toLocaleString(),
     tokenLogo: tokenLogoUrl,
-    createdDate: `Deployed ${daysOld} days ago`,
+    createdDate: `🕐 Deployed ${daysOld} days ago`,
   };
 }
 
@@ -92,10 +92,11 @@ function formatTokenDynamicDetails(
       : `🤑 No Max ${tokenSymbol} per Wallet`,
     supplyBurned: token_Supply_Burned
       ? `🔥 ${token_Supply_Burned.toLocaleString()} ${tokenSymbol} burned`
-      : '',
-    lpBurnedPercent: lp_Burned_Percent
-      ? `🔥 ${lp_Burned_Percent}% of LP burned`
-      : '💧LP is not burned',
+      : ``,
+    lpBurnedPercent:
+      lp_Burned_Percent && lp_Burned_Percent !== '0.00'
+        ? `🔥 ${lp_Burned_Percent}% of LPs burned`
+        : '💧 LP is not burned',
     lpLocks: formatLPLocks(lp_Locks),
   };
 }
@@ -103,7 +104,7 @@ function formatTokenDynamicDetails(
 function formatLPLocks(
   lpLocks: QuickIntelResponse['tokenDynamicDetails']['lp_Locks']
 ) {
-  if (!lpLocks) return '🔓 LP lock not found';
+  if (!lpLocks) return '🔓 No LP lock found (may have unlisted lock)';
 
   if (lpLocks.pinksale) {
     return '🔒 LP locked with Pinksale';
@@ -129,7 +130,9 @@ function formatQuickiAudit(
     hiddenOwnerStatus: audit.hidden_Owner
       ? '⚠️ Hidden owner 👀'
       : '✅ No hidden owner',
-    proxyStatus: audit.is_Proxy ? '⚠️ Proxy Contract' : '✅ No Proxy',
+    proxyStatus: audit.is_Proxy
+      ? '⚠️ Proxy: Contract can be upgraded'
+      : '✅ No Proxy',
     externalContractRisk: audit.has_External_Contract_Risk
       ? '⚠️ Contract can be modified by external contracts!'
       : '✅ No contracts can modify this token!',
@@ -227,5 +230,5 @@ function formatScamStatus(
 ) {
   return hasScams || matchedScams || (scamFunctions && scamFunctions.length > 0)
     ? '🚨 Known Scam!'
-    : '👍 No Malicious Code';
+    : '✅ No Malicious Code';
 }

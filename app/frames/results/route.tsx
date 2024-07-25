@@ -232,7 +232,7 @@ const handler = frames(async (ctx) => {
             {tokenName} | {tokenSymbol}
           </h2>
           <p style={{ margin: '5px 0' }}>
-            Total Supply: {supply} | {mintableStatus}
+            Total Supply: {supply} {mintableStatus}
           </p>
           <p style={{ margin: '5px 0' }}>{createdDate}</p>
           <p style={{ margin: '5px 0' }}>{ownershipStatus}</p>
