@@ -5,6 +5,7 @@ export interface QuickIntelResponse {
     tokenDecimals: number; // display as is
     tokenOwner: string; // if zero address, display as "✅ Renounced", else display as "⚠️ Owner: <tokenOwner>"
     tokenSupply: number; // display as "Supply: <tokenSupply>"
+    tokenLogo: string; // display as is, unless null, then display: " tokenLogo: details.tokenLogo || `https://github.com/heyJonBray/chain-logos/blob/master/png/${chain.toLowerCase()}Logo.png?raw=true`,"
     tokenCreatedDate: number; // this returns a unix value, convert to number of days since, display as "Created: <days> ago"
     quickiTokenHash: {
       // ignore
@@ -19,15 +20,16 @@ export interface QuickIntelResponse {
     sell_Tax: string; // if null display "✅ No Sell Tax", else display as "⚠️ <sellTax>% Sell Tax"
     transfer_Tax: string; // if null display "✅ No Transfer Tax", else display as "⚠️ <transferTax>% Transfer Tax"
     post_Cooldown_Tax: string; // if null display "✅ No Post Cooldown Tax", else display as "⚠️ <postCooldownTax>% Post Cooldown Tax"
-    max_Transaction: string; // if null display "✅ No Max Tx", else display as "⚠️ <maxTransaction> per transaction"
-    max_Transaction_Percent: string | null;
-    max_Wallet: string;
-    max_Wallet_Percent: string;
-    token_Supply_Burned: number;
-    lp_Pair: string;
-    lp_Supply: number;
-    lp_Burned_Percent: string;
+    max_Transaction: string; // if null display "✅ No Max Tx", else display as "⚠️ <maxTransaction> per transaction" - show only the value before the decimals (ex. 500000 not 500000.00000000)
+    max_Transaction_Percent: string | null; // ignore
+    max_Wallet: string; // if null display "✅ No Max <tokenSymbol> per Wallet", else display as "⚠️ <maxWalletAmount> <tokenSymbol> per wallet" - show only the value before the decimals (ex. 500000 not 500000.00000000)
+    max_Wallet_Percent: string; // ignore
+    token_Supply_Burned: number; // if null, ignore. else "🔥 <value> <tokenSymbol> burned"
+    lp_Pair: string; // ignore
+    lp_Supply: number; // ignore
+    lp_Burned_Percent: string; // display: "🔥 <value>% of LPs burned"
     lp_Locks: {
+      // if null, display: "⚠️ LP lock not found", if pinksale display as "🔑 LP locked with Pinksale", if dxsale display as "🔑 LP locked with DxSale", if onlymoons display "🔑 <percentageLocked>% locked until <unlockDate>" - unlockDate is unix timestamp, convert to date
       pinksale: any;
       onlymoons: {
         lockDate: number;
@@ -38,21 +40,20 @@ export interface QuickIntelResponse {
         percentageLocked: string;
       };
       dxsale: any;
-      // team finance?
     };
-    price_Impact: string;
-    problem: boolean; // todo: what is this?
-    extra: string; // todo: what is this?
+    price_Impact: string; // ignore
+    problem: boolean; // ignore
+    extra: string; // ignore
   };
-  isScam: boolean; // add to page 1
-  contractVerified: boolean;
+  isScam: boolean; // ignore
+  contractVerified: boolean; // if true display "✅ Verified", else display "⚠️ Unverified"
   quickiAudit: {
-    contract_Creator: string; // check if owner is creator
-    contract_Owner: string; //     if yes, display "owner is creator"
-    contract_Name: string;
-    contract_Chain: string;
-    contract_Address: string;
-    contract_Renounced: boolean; // add to page 1
+    contract_Creator: string; // ignore
+    contract_Owner: string; // ignore
+    contract_Name: string; // ignore
+    contract_Chain: string; // ignore
+    contract_Address: string; // ignore
+    contract_Renounced: boolean; // only use internally to verify display for tokenOwner
     contract_Type: string;
     has_Delegated_Ownership: boolean;
     hidden_Owner: boolean;
