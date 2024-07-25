@@ -54,16 +54,13 @@ const handler = frames(async (ctx) => {
           <h2>Error: Unable to fetch Request ID</h2>
           <h3>Code 404</h3>
           <p>
-            Please retry. If the problem persists, please contact the dev for
-            help with your error code.
+            Please try again in a few minutes. If the problem persists, please
+            contact the dev for help with your error code.
           </p>
         </div>
       ),
       buttons: [
-        <Button key="back" action="post" target={{ pathname: '/begin' }}>
-          ↩️
-        </Button>,
-        <Button key="retry" action="post" target={{ pathname: '/results' }}>
+        <Button key="retry" action="post" target={{ pathname: '/begin' }}>
           Retry
         </Button>,
         <Button
@@ -136,10 +133,7 @@ const handler = frames(async (ctx) => {
         </div>
       ),
       buttons: [
-        <Button key="back" action="post" target={{ pathname: '/begin' }}>
-          ↩️
-        </Button>,
-        <Button key="retry" action="post" target={{ pathname: '/results' }}>
+        <Button key="retry" action="post" target={{ pathname: '/begin' }}>
           Retry
         </Button>,
         <Button
@@ -156,6 +150,11 @@ const handler = frames(async (ctx) => {
   const responseData = data.response;
   const tokenDetails = responseData.tokenDetails;
   const quickiAudit = responseData.quickiAudit;
+
+  // Use token logo or fallback to chain logo if token logo is not available
+  const tokenLogoUrl =
+    tokenDetails.tokenLogo ||
+    `https://github.com/heyJonBray/chain-logos/blob/master/png/${normalizedChain}Logo.png?raw=true`;
 
   return {
     image: (
@@ -184,8 +183,8 @@ const handler = frames(async (ctx) => {
           }}
         >
           <img
-            src={tokenDetails.tokenLogo}
-            alt=""
+            src={tokenLogoUrl}
+            alt={contract}
             style={{ width: '50px', height: '50px' }}
           />
           <div
@@ -197,7 +196,7 @@ const handler = frames(async (ctx) => {
         <h2>
           {tokenDetails.tokenName} | {tokenDetails.tokenSymbol}
         </h2>
-        <p>{tokenDetails.tokenDecimals} decimals!!!</p>
+        <p>{tokenDetails.tokenDecimals} decimals</p>
         <p>
           Ownership Status:{' '}
           {quickiAudit.contract_Renounced
