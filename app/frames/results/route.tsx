@@ -54,13 +54,16 @@ const handler = frames(async (ctx) => {
           <h2>Error: Unable to fetch Request ID</h2>
           <h3>Code 404</h3>
           <p>
-            Please try again in a few minutes. If the problem persists, please
-            contact the dev for help with your error code.
+            Please retry. If the problem persists, please contact the dev for
+            help with your error code.
           </p>
         </div>
       ),
       buttons: [
-        <Button key="retry" action="post" target={{ pathname: '/begin' }}>
+        <Button key="back" action="post" target={{ pathname: '/begin' }}>
+          ↩️
+        </Button>,
+        <Button key="retry" action="post" target={{ pathname: '/results' }}>
           Retry
         </Button>,
         <Button
@@ -133,7 +136,10 @@ const handler = frames(async (ctx) => {
         </div>
       ),
       buttons: [
-        <Button key="retry" action="post" target={{ pathname: '/begin' }}>
+        <Button key="back" action="post" target={{ pathname: '/begin' }}>
+          ↩️
+        </Button>,
+        <Button key="retry" action="post" target={{ pathname: '/results' }}>
           Retry
         </Button>,
         <Button
@@ -191,7 +197,7 @@ const handler = frames(async (ctx) => {
         <h2>
           {tokenDetails.tokenName} | {tokenDetails.tokenSymbol}
         </h2>
-        <p>{tokenDetails.tokenDecimals} decimals</p>
+        <p>{tokenDetails.tokenDecimals} decimals!!!</p>
         <p>
           Ownership Status:{' '}
           {quickiAudit.contract_Renounced

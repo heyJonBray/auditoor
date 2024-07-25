@@ -134,7 +134,10 @@ const handler = frames(async (ctx) => {
         </div>
       ),
       buttons: [
-        <Button key="retry" action="post" target={{ pathname: '/begin' }}>
+        <Button key="back" action="post" target={{ pathname: '/begin' }}>
+          ↩️
+        </Button>,
+        <Button key="retry" action="post" target={{ pathname: '/results' }}>
           Retry
         </Button>,
         <Button

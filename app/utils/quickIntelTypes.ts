@@ -1,6 +1,6 @@
 export interface QuickIntelResponse {
   tokenDetails: {
-    tokenName: string;
+    tokenName: string; 
     tokenSymbol: string;
     tokenDecimals: number;
     tokenOwner: string;
@@ -13,10 +13,10 @@ export interface QuickIntelResponse {
   };
   tokenDynamicDetails: {
     lastUpdatedTimestamp: number;
-    is_Honeypot: boolean;
-    buy_Tax: string;
-    sell_Tax: string;
-    transfer_Tax: string;
+    is_Honeypot: boolean; // add
+    buy_Tax: string;  // if yes
+    sell_Tax: string;  // if yes
+    transfer_Tax: string;  // if yes
     post_Cooldown_Tax: string;
     max_Transaction: string;
     max_Transaction_Percent: string | null;
@@ -24,9 +24,9 @@ export interface QuickIntelResponse {
     max_Wallet_Percent: string;
     token_Supply_Burned: number;
     lp_Pair: string;
-    lp_Supply: number;
-    lp_Burned_Percent: string;
-    lp_Locks: {
+    lp_Supply: number; 
+    lp_Burned_Percent: string; // if LP burned, yes
+    lp_Locks: { // yes and list type
       pinksale: any;
       onlymoons: {
         lockDate: number;
@@ -37,20 +37,21 @@ export interface QuickIntelResponse {
         percentageLocked: string;
       };
       dxsale: any;
+      // team finance?
     };
     price_Impact: string;
-    problem: boolean;
-    extra: string;
+    problem: boolean; // todo: what is this?
+    extra: string; // todo: what is this?
   };
-  isScam: boolean;
+  isScam: boolean; // add to page 1
   contractVerified: boolean;
   quickiAudit: {
-    contract_Creator: string;
-    contract_Owner: string;
+    contract_Creator: string; // check if owner is creator
+    contract_Owner: string;   //     if yes, display "owner is creator"
     contract_Name: string;
     contract_Chain: string;
     contract_Address: string;
-    contract_Renounced: boolean;
+    contract_Renounced: boolean; // add to page 1
     contract_Type: string;
     has_Delegated_Ownership: boolean;
     hidden_Owner: boolean;
