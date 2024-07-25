@@ -1,5 +1,5 @@
 {
-  "name": "fckn-audit",
+  "name": "anti-rug-system",
   "version": "0.0.3",
   "private": true,
   "type": "module",
@@ -13,7 +13,6 @@
   "dependencies": {
     "@airstack/frames": "^1.1.12",
     "@supabase/supabase-js": "^2.44.4",
-    "@vercel/kv": "^2.0.0",
     "@xmtp/frames-validator": "^0.6.2",
     "clsx": "^2.1.1",
     "frames.js": "^0.18.0",
