@@ -31,9 +31,11 @@ function formatTokenDetails(
     tokenCreatedDate,
   } = details;
 
-  const daysOld = Math.floor(
-    (Date.now() - tokenCreatedDate) / (1000 * 60 * 60 * 24)
-  );
+  // Handle null tokenCreatedDate
+  const daysOld = tokenCreatedDate
+    ? Math.floor((Date.now() - tokenCreatedDate) / (1000 * 60 * 60 * 24))
+    : null;
+
   const tokenLogoUrl =
     tokenLogo ||
     `https://github.com/heyJonBray/chain-logos/blob/master/png/${chain.toLowerCase()}Logo.png?raw=true`;
@@ -47,7 +49,7 @@ function formatTokenDetails(
     ownershipStatus,
     supply: tokenSupply.toLocaleString(),
     tokenLogo: tokenLogoUrl,
-    createdDate: `🕐 Deployed ${daysOld} days ago`,
+    createdDate: daysOld !== null ? `🕐 Deployed ${daysOld} days ago` : '',
   };
 }
 

@@ -6,7 +6,6 @@ import {
   TokenBlockchain,
 } from '@airstack/frames';
 
-// testing addresses, comment out the one that isn't needed
 // isAllowed = true
 const nftAddress = '0xec5461aa3a8cac1095b04d00ac7cabab87a2a7ec';
 // isAllowed = false
@@ -16,7 +15,7 @@ const nftPassAddress = '';
 
 const handler = frames(
   async (ctx) => {
-    console.log(ctx.isAllowed); // check if user is allowed to access frame
+    console.log(ctx.isAllowed);
     if (ctx.isAllowed) {
       return {
         image: (
@@ -149,7 +148,7 @@ const handler = frames(
           <Button
             key="subscribe"
             action="link"
-            target={'https://example.com/subscribe'} // todo: NFT mint URL
+            target={'https://example.com/subscribe'}
           >
             Purchase
           </Button>,

@@ -125,7 +125,7 @@ const handler = frames(async () => {
     ),
     buttons: [
       <Button
-        key="start"
+        key="begin"
         action="post"
         target={{ pathname: '/begin', query: { foo: 'bar' } }}
       >
