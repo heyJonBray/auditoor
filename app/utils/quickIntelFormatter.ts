@@ -38,16 +38,16 @@ function formatTokenDetails(
     tokenLogo ||
     `https://github.com/heyJonBray/chain-logos/blob/master/png/${chain.toLowerCase()}Logo.png?raw=true`;
   const ownershipStatus = tokenOwner
-    ? `⚠️ Owner: ${tokenOwner}`
-    : '✅ Renounced';
+    ? `⚠️ Contract is not Renounced`
+    : '✅ Renounced ';
 
   return {
     tokenName,
     tokenSymbol,
     ownershipStatus,
-    supply: `Supply: ${tokenSupply.toLocaleString()}`,
+    supply: tokenSupply.toLocaleString(),
     tokenLogo: tokenLogoUrl,
-    createdDate: `🕑 ${daysOld} days old`,
+    createdDate: `Deployed ${daysOld} days ago`,
   };
 }
 
@@ -79,11 +79,17 @@ function formatTokenDynamicDetails(
       ? `⚠️ ${post_Cooldown_Tax}% Post Cooldown Tax`
       : '✅ No Post Cooldown Tax',
     maxTransaction: max_Transaction
-      ? `⚠️ ${parseInt(max_Transaction, 10)} per transaction`
-      : '✅ No Max Tx',
+      ? `Transfer Limit: ${parseInt(
+          max_Transaction,
+          10
+        )} ${tokenSymbol} per transaction`
+      : `🐳 You can transfer as much ${tokenSymbol} as you like!`,
     maxWallet: max_Wallet
-      ? `⚠️ ${parseInt(max_Wallet, 10)} per wallet`
-      : `✅ No Max ${tokenSymbol} per Wallet`,
+      ? `You can only hold ${parseInt(
+          max_Wallet,
+          10
+        )} ${tokenSymbol} per wallet`
+      : `🤑 No Max ${tokenSymbol} per Wallet`,
     supplyBurned: token_Supply_Burned
       ? `🔥 ${token_Supply_Burned.toLocaleString()} ${tokenSymbol} burned`
       : '',
@@ -116,15 +122,15 @@ function formatQuickiAudit(
 ) {
   return {
     verificationStatus: audit.contract_Renounced
-      ? '✅ Verified'
-      : '⚠️ Unverified',
+      ? '✅ Contract is verified!'
+      : '⚠️ Contract is not verified',
     hiddenOwnerStatus: audit.hidden_Owner
-      ? '⚠️ Hidden owner'
+      ? '⚠️ Hidden owner 👀'
       : '✅ No hidden owner',
     proxyStatus: audit.is_Proxy ? '⚠️ Proxy Contract' : '✅ No Proxy',
     externalContractRisk: audit.has_External_Contract_Risk
-      ? '⚠️ External Contract Risk'
-      : '✅ No external contract risk',
+      ? '⚠️ Contract can be modified by external contracts!'
+      : '✅ No contracts can modify this token!',
     mintableStatus: formatMintableStatus(
       audit.can_Mint,
       audit.cant_Mint_Renounced
@@ -150,14 +156,16 @@ function formatQuickiAudit(
       : '✅ No Suspicious Functions',
     modifiedTransferFunctions:
       audit.modified_Transfer_Functions?.length > 0
-        ? '⚠️ Modified Transfer Functions'
+        ? '🚨 Transfers can be modified by the contract!'
         : '✅ No Modified Transfer Functions',
     scamStatus: formatScamStatus(
       audit.has_Scams,
       audit.matched_Scams,
       audit.scam_Functions
     ),
-    immutabilityStatus: audit.is_Mutable ? '⚠️ Mutable' : '✅ Immutable',
+    immutabilityStatus: audit.is_Mutable
+      ? '🚨 Contract can be modified!'
+      : '✅ Contract is immutable',
     generalVulnerabilities: audit.has_General_Vulnerabilities
       ? '⚠️ General Vulnerabilities'
       : '✅ No General Vulnerabilities',
@@ -206,8 +214,8 @@ function formatOwnerPermissions(audit: any, tokenSymbol: string) {
   ];
 
   return permissions.some(Boolean)
-    ? `⚠️ Owner can change how ${tokenSymbol} is transacted`
-    : '✅ No Owner Permissions';
+    ? `⚠️ Owner can update these values`
+    : '✅ These values cannot be changed';
 }
 
 function formatScamStatus(
@@ -216,6 +224,6 @@ function formatScamStatus(
   scamFunctions: string[]
 ) {
   return hasScams || matchedScams || (scamFunctions && scamFunctions.length > 0)
-    ? '⛔ Known Scam!'
-    : '✅ No Known Scams';
+    ? '🚨 Known Scam!'
+    : '👍 No Malicious Code';
 }

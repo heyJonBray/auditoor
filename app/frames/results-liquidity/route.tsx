@@ -1,79 +1,13 @@
-// results/route.tsx
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
 import { supabase } from '../../utils/supabaseClient';
+import { parseQuickIntelResponse } from '../../utils/quickIntelFormatter';
 
 const handler = frames(async (ctx) => {
   const contract = ctx.searchParams.contract || '';
   const chain = ctx.searchParams.chain || '';
-  const responseId = ctx.searchParams.id;
+  const responseId = ctx.searchParams.responseId;
   const normalizedChain = chain.toLowerCase().replace(/\s/g, '');
-
-  // if responseId is undefined, display 404 error
-  if (!responseId) {
-    return {
-      image: (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100vh',
-            width: '100vw',
-            background: '#2e2e2e',
-            color: 'white',
-            textAlign: 'center',
-            padding: '20px',
-            position: 'relative',
-          }}
-        >
-          <div
-            style={{
-              position: 'absolute',
-              top: '25px',
-              left: '25px',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <img
-              src={`https://github.com/heyJonBray/chain-logos/blob/master/png/${normalizedChain}Logo.png?raw=true`}
-              alt=""
-              style={{ width: '50px', height: '50px' }}
-            />
-            <div
-              style={{
-                marginLeft: '20px',
-                fontSize: '35px',
-                fontWeight: 'bold',
-              }}
-            >
-              {contract}
-            </div>
-          </div>
-          <h2>Error: Unable to fetch Request ID</h2>
-          <h3>Code 404</h3>
-          <p>
-            Please try again in a few minutes. If the problem persists please
-            contact the dev for help with your error code.
-          </p>
-        </div>
-      ),
-      buttons: [
-        <Button key="retry" action="post" target={{ pathname: '/begin' }}>
-          Retry
-        </Button>,
-        <Button
-          key="help"
-          action="link"
-          target={'https://warpcast.com/jonbray.eth'}
-        >
-          dev
-        </Button>,
-      ],
-    };
-  }
 
   const { data, error } = await supabase
     .from('quickintel_results')
@@ -81,7 +15,6 @@ const handler = frames(async (ctx) => {
     .eq('id', responseId)
     .single();
 
-  // if unable to contact supabase, display 403 error
   if (error) {
     console.error('Error fetching data from Supabase:', error);
     return {
@@ -126,9 +59,9 @@ const handler = frames(async (ctx) => {
             </div>
           </div>
           <h2>Error: Unable to fetch data from database</h2>
-          <h3>Code 404</h3>
+          <h3>Code 403</h3>
           <p>
-            Please try again in a few minutes. If the problem persists please
+            Please try again in a few minutes. If the problem persists, please
             contact the dev for help with your error code.
           </p>
         </div>
@@ -151,11 +84,20 @@ const handler = frames(async (ctx) => {
     };
   }
 
-  const responseData = data.response;
-  const tokenDetails = responseData.tokenDetails;
-  const quickiAudit = responseData.quickiAudit;
+  const {
+    tokenSymbol,
+    tokenLogo,
+    buyTax,
+    sellTax,
+    blacklistStatus,
+    whitelistStatus,
+    honeypotStatus,
+    feeChangeStatus,
+    feeUpdateStatus,
+    lpBurnedPercent,
+    lpLocks,
+  } = parseQuickIntelResponse(data.response, chain);
 
-  // all good response
   return {
     image: (
       <div
@@ -188,53 +130,60 @@ const handler = frames(async (ctx) => {
             style={{ width: '50px', height: '50px' }}
           />
           <div
-            style={{ marginLeft: '20px', fontSize: '35px', fontWeight: 'bold' }}
+            style={{ marginLeft: '20px', fontSize: '25px', fontWeight: 'bold' }}
           >
             {contract}
           </div>
         </div>
-        <img
-          src={tokenDetails.tokenLogo}
-          alt={contract}
-          style={{ width: '20px', height: '20px' }}
-        ></img>
-        <h2>
-          {tokenDetails.tokenName} | {tokenDetails.tokenSymbol}
-        </h2>
-        <p>{tokenDetails.tokenDecimals} decimals</p>
-        <p>
-          Ownership Status:{' '}
-          {quickiAudit.contract_Renounced
-            ? 'Renounced'
-            : `Owned (${quickiAudit.contract_Owner})`}
-        </p>
-        <p>Supply: {tokenDetails.tokenSupply}</p>
-        <p>
-          Ownership Status:{' '}
-          {quickiAudit.contract_Renounced
-            ? 'Renounced'
-            : `Owned (${quickiAudit.contract_Owner})`}
-        </p>
-        <p
+        <div
           style={{
             position: 'absolute',
-            bottom: '10px',
-            right: '25px',
-            fontWeight: 'bold',
-            fontSize: '25px',
+            top: '0px',
+            right: '0px',
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
-          Powered by QuickIntel API
-        </p>
+          <img
+            src={tokenLogo}
+            alt={contract}
+            style={{ width: '150px', height: '150px', borderRadius: '20px' }}
+          />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            marginTop: '50px',
+          }}
+        >
+          <h2 style={{ margin: '20px 0' }}>{tokenSymbol} Liquidity</h2>
+          <p style={{ margin: '5px 0' }}>
+            {buyTax} / {sellTax}
+          </p>
+          <p style={{ margin: '5px 0' }}>
+            {feeChangeStatus} / {feeUpdateStatus}
+          </p>
+          <p style={{ margin: '5px 0' }}>
+            {whitelistStatus} / {blacklistStatus}
+          </p>
+          <p style={{ margin: '5px 0' }}>{honeypotStatus}</p>
+          <p style={{ margin: '5px 0' }}>{lpBurnedPercent}</p>
+          <p style={{ margin: '5px 0' }}>{lpLocks}</p>
+        </div>
       </div>
     ),
     buttons: [
       <Button
         key="next"
         action="post"
-        target={{ pathname: '/results2', query: { contract, chain } }}
+        target={{
+          pathname: '/results-transfers',
+          query: { contract, chain, responseId },
+        }}
       >
-        Continue
+        Token Transfer Info ▶️
       </Button>,
     ],
   };
