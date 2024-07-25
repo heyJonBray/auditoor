@@ -1,32 +1,33 @@
 export interface QuickIntelResponse {
   tokenDetails: {
-    tokenName: string; 
-    tokenSymbol: string;
-    tokenDecimals: number;
-    tokenOwner: string;
-    tokenSupply: number;
-    tokenCreatedDate: number;
+    tokenName: string; // display as is
+    tokenSymbol: string; // display as is
+    tokenDecimals: number; // display as is
+    tokenOwner: string; // if zero address, display as "✅ Renounced", else display as "⚠️ Owner: <tokenOwner>"
+    tokenSupply: number; // display as "Supply: <tokenSupply>"
+    tokenCreatedDate: number; // this returns a unix value, convert to number of days since, display as "Created: <days> ago"
     quickiTokenHash: {
+      // ignore
       exact_qHash: string;
       similar_qHash: string;
     };
   };
   tokenDynamicDetails: {
-    lastUpdatedTimestamp: number;
-    is_Honeypot: boolean; // add
-    buy_Tax: string;  // if yes
-    sell_Tax: string;  // if yes
-    transfer_Tax: string;  // if yes
-    post_Cooldown_Tax: string;
-    max_Transaction: string;
+    lastUpdatedTimestamp: number; // ignore
+    is_Honeypot: boolean; // if true display as "⛔ Honeypot", if false display as "✅ Not a Honeypot!"
+    buy_Tax: string; // if null display "✅ No Buy Tax", else display as "⚠️ <buyTax>% Buy Tax"
+    sell_Tax: string; // if null display "✅ No Sell Tax", else display as "⚠️ <sellTax>% Sell Tax"
+    transfer_Tax: string; // if null display "✅ No Transfer Tax", else display as "⚠️ <transferTax>% Transfer Tax"
+    post_Cooldown_Tax: string; // if null display "✅ No Post Cooldown Tax", else display as "⚠️ <postCooldownTax>% Post Cooldown Tax"
+    max_Transaction: string; // if null display "✅ No Max Tx", else display as "⚠️ <maxTransaction> per transaction"
     max_Transaction_Percent: string | null;
     max_Wallet: string;
     max_Wallet_Percent: string;
     token_Supply_Burned: number;
     lp_Pair: string;
-    lp_Supply: number; 
-    lp_Burned_Percent: string; // if LP burned, yes
-    lp_Locks: { // yes and list type
+    lp_Supply: number;
+    lp_Burned_Percent: string;
+    lp_Locks: {
       pinksale: any;
       onlymoons: {
         lockDate: number;
@@ -47,7 +48,7 @@ export interface QuickIntelResponse {
   contractVerified: boolean;
   quickiAudit: {
     contract_Creator: string; // check if owner is creator
-    contract_Owner: string;   //     if yes, display "owner is creator"
+    contract_Owner: string; //     if yes, display "owner is creator"
     contract_Name: string;
     contract_Chain: string;
     contract_Address: string;

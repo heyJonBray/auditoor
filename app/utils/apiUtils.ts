@@ -8,10 +8,22 @@ if (!API_KEY) {
   throw new Error('Missing API key for QuickIntel');
 }
 
+// map normalized chain name to QuickIntel API equivalent
+const chainMap: Record<string, string> = {
+  ethereum: 'ETH',
+  // Add other mappings as necessary
+};
+
+function getMappedChainName(chain: string): string {
+  return chainMap[chain.toLowerCase()] || chain.toUpperCase();
+}
+
 export async function fetchAuditData(
   chain: string,
   tokenAddress: string
 ): Promise<QuickIntelResponse> {
+  const mappedChain = getMappedChainName(chain);
+
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
@@ -19,7 +31,7 @@ export async function fetchAuditData(
         'Content-Type': 'application/json',
         'X-QKNTL-KEY': API_KEY,
       } as HeadersInit,
-      body: JSON.stringify({ chain, tokenAddress }),
+      body: JSON.stringify({ chain: mappedChain, tokenAddress }),
     });
 
     if (!response.ok) {
@@ -51,5 +63,5 @@ export async function saveAuditDataToSupabase(
     throw new Error(`Error storing data in Supabase: ${error.message}`);
   }
 
-  return data[0].id; // Assuming `id` is the primary key and is returned after insertion
+  return data[0].id; // `id` = primary key that is returned after insertion
 }
