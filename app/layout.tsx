@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
   // without a title, warpcast won't validate your frame
-  title: "frames.js starter",
-  description: "...",
+  title: 'The Growth Cult - Anti Rug System',
+  description: 'in-frame token contract audits',
 };
 
 export default function RootLayout({
