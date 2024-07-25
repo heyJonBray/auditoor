@@ -1,6 +1,7 @@
 import { Button } from 'frames.js/next';
 import { frames } from '../frames';
 import { supabase } from '../../utils/supabaseClient';
+import { parseQuickIntelResponse } from '../../utils/quickIntelFormatter';
 
 const handler = frames(async (ctx) => {
   const contract = ctx.searchParams.contract || '';
@@ -153,14 +154,14 @@ const handler = frames(async (ctx) => {
     };
   }
 
-  const responseData = data.response;
-  const tokenDetails = responseData.tokenDetails;
-  const quickiAudit = responseData.quickiAudit;
-
-  // Use token logo or fallback to chain logo if token logo is not available
-  const tokenLogoUrl =
-    tokenDetails.tokenLogo ||
-    `https://github.com/heyJonBray/chain-logos/blob/master/png/${normalizedChain}Logo.png?raw=true`;
+  const {
+    tokenName,
+    tokenSymbol,
+    ownershipStatus,
+    supply,
+    tokenLogo,
+    createdDate,
+  } = parseQuickIntelResponse(data.response, chain);
 
   return {
     image: (
@@ -189,7 +190,7 @@ const handler = frames(async (ctx) => {
           }}
         >
           <img
-            src={tokenLogoUrl}
+            src={tokenLogo}
             alt={contract}
             style={{ width: '50px', height: '50px' }}
           />
@@ -200,16 +201,11 @@ const handler = frames(async (ctx) => {
           </div>
         </div>
         <h2>
-          {tokenDetails.tokenName} | {tokenDetails.tokenSymbol}
+          {tokenName} | {tokenSymbol}
         </h2>
-        <p>{tokenDetails.tokenDecimals} decimals</p>
-        <p>
-          Ownership Status:{' '}
-          {quickiAudit.contract_Renounced
-            ? 'Renounced'
-            : `Owned (${quickiAudit.contract_Owner})`}
-        </p>
-        <p>Supply: {tokenDetails.tokenSupply}</p>
+        <p>{createdDate}</p>
+        <p>Ownership Status: {ownershipStatus}</p>
+        <p>Supply: {supply}</p>
         <p
           style={{
             position: 'absolute',

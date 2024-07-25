@@ -1,4 +1,3 @@
-// quickIntelFormatter.ts
 import { QuickIntelResponse } from './quickIntelTypes';
 import { QuickIntelResponseType } from './quickIntelEnums';
 
@@ -150,7 +149,7 @@ function formatQuickiAudit(
       ? '⚠️ Suspicious Internal Functions'
       : '✅ No Suspicious Functions',
     modifiedTransferFunctions:
-      audit.modified_Transfer_Functions.length > 0
+      audit.modified_Transfer_Functions?.length > 0
         ? '⚠️ Modified Transfer Functions'
         : '✅ No Modified Transfer Functions',
     scamStatus: formatScamStatus(
@@ -199,11 +198,11 @@ function formatWhitelistStatus(
 
 function formatOwnerPermissions(audit: any, tokenSymbol: string) {
   const permissions = [
-    audit.canUpdateMaxWallet && !audit.cantUpdateMaxWalletRenounced,
-    audit.canUpdateMaxTx && !audit.cantUpdateMaxTxRenounced,
-    audit.canPauseTrading && !audit.cantPauseTradingRenounced,
-    audit.hasTradingCooldown,
-    audit.canUpdateWallets,
+    audit.can_Update_Max_Wallet && !audit.cant_Update_Max_Wallet_Renounced,
+    audit.can_Update_Max_Tx && !audit.cant_Update_Max_Tx_Renounced,
+    audit.can_Pause_Trading && !audit.cant_Pause_Trading_Renounced,
+    audit.has_Trading_Cooldown,
+    audit.can_Update_Wallets,
   ];
 
   return permissions.some(Boolean)
@@ -216,7 +215,7 @@ function formatScamStatus(
   matchedScams: string | null,
   scamFunctions: string[]
 ) {
-  return hasScams || matchedScams || scamFunctions.length > 0
+  return hasScams || matchedScams || (scamFunctions && scamFunctions.length > 0)
     ? '⛔ Known Scam!'
     : '✅ No Known Scams';
 }
