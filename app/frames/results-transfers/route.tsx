@@ -169,12 +169,15 @@ const handler = frames(async (ctx) => {
       </div>
     ),
     buttons: [
+      <Button key="next" action="post" target={{ pathname: '/begin' }}>
+        Scan Again
+      </Button>,
       <Button
-        key="next"
-        action="post"
-        target={{ pathname: '/results-final', query: { contract, chain } }}
+        key="dev"
+        action="link"
+        target={'https://warpcast.com/jonbray.eth'}
       >
-        Continue
+        Contact Dev
       </Button>,
     ],
   };
