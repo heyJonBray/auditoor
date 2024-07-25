@@ -69,7 +69,7 @@ function formatTokenDynamicDetails(
   } = details;
 
   return {
-    honeypotStatus: is_Honeypot ? '⛔ Honeypot' : '✅ Not a Honeypot!',
+    honeypotStatus: is_Honeypot ? '🚨⛔ Honeypot' : '✅ Not a Honeypot!',
     buyTax: buy_Tax ? `💸 ${buy_Tax}% Buy Tax` : '✅ No Buy Tax',
     sellTax: sell_Tax ? `💸 ${sell_Tax}% Sell Tax` : '✅ No Sell Tax',
     transferTax: transfer_Tax
@@ -93,7 +93,9 @@ function formatTokenDynamicDetails(
     supplyBurned: token_Supply_Burned
       ? `🔥 ${token_Supply_Burned.toLocaleString()} ${tokenSymbol} burned`
       : '',
-    lpBurnedPercent: `🔥 ${lp_Burned_Percent}% of LPs burned`,
+    lpBurnedPercent: lp_Burned_Percent
+      ? `🔥 ${lp_Burned_Percent}% of LP burned`
+      : '💧LP is not burned',
     lpLocks: formatLPLocks(lp_Locks),
   };
 }
